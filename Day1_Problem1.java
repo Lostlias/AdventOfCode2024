@@ -11,6 +11,7 @@ class Day1_Problem1 {
         // File path
         String filePath = "input1.txt"; // Replace with your actual file path
         int endSum = 0;
+        int similarityScore = 0;
 
         // ArrayLists to store numbers
         ArrayList<Integer> firstList = new ArrayList<>();
@@ -55,6 +56,18 @@ class Day1_Problem1 {
         }
 
         System.out.println("Your number is: " + endSum);
+
+        for (int numberInFirst : firstList) {
+            int count = 0;
+            for (int numberInSecond : secondList) {
+                if (numberInFirst == numberInSecond) {
+                    count++;
+                }
+            }
+            similarityScore += count * numberInFirst;
+        }
+
+        System.out.println("Your similarity score is: " + similarityScore);
     }
 
 }
