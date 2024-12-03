@@ -15,13 +15,35 @@ public class Report {
     }
 
     public boolean checkReport() {
-        return ((allAscending() || allDescending()) && notGreaterThanThreeApart());
+        return (((allAscending(this.numbersInReport) || allDescending(this.numbersInReport)) && notGreaterThanThreeApart(this.numbersInReport)) || checkRemoved());
+    }
+
+    private boolean checkRemoved() {
+        for (int i = 0; i < this.numbersInReport.size(); i++) {
+            if (removeSpecificEntryAndValid(i)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean removeSpecificEntryAndValid(int placeOfEntry) {
+        ArrayList<Integer> returner = new ArrayList<>();
+
+        for (int entry : this.numbersInReport) {
+            returner.add(entry);
+        }
+
+        returner.remove(placeOfEntry);
+
+        return ((allAscending(returner) || allDescending(returner)) && notGreaterThanThreeApart(returner));        
     }
 
     // Check if all numbers are ascending
-    private boolean allAscending() {
-        for (int i = 0; i < this.numbersInReport.size() - 1; i++) {
-            if (! (this.numbersInReport.get(i) < this.numbersInReport.get(i + 1))) {
+    private boolean allAscending(ArrayList<Integer> toCheck) {
+        for (int i = 0; i < toCheck.size() - 1; i++) {
+            if (! (toCheck.get(i) < toCheck.get(i + 1))) {
                 return false;
             }
         }
@@ -30,9 +52,9 @@ public class Report {
     }
 
     // Check if all numbers are descending
-    private boolean allDescending() {
-        for (int i = 0; i < this.numbersInReport.size() - 1; i++) {
-            if (! (this.numbersInReport.get(i) > this.numbersInReport.get(i + 1))) {
+    private boolean allDescending(ArrayList<Integer> toCheck) {
+        for (int i = 0; i < toCheck.size() - 1; i++) {
+            if (! (toCheck.get(i) > toCheck.get(i + 1))) {
                 return false;
             }
         }
@@ -41,9 +63,9 @@ public class Report {
     }
 
     // Check than none are >3 apart (Distance)
-    private boolean notGreaterThanThreeApart() {
-        for (int i = 0; i < this.numbersInReport.size() - 1; i++) {
-            if (Math.abs(this.numbersInReport.get(i) - this.numbersInReport.get(i + 1)) > 3) {
+    private boolean notGreaterThanThreeApart(ArrayList<Integer> toCheck) {
+        for (int i = 0; i < toCheck.size() - 1; i++) {
+            if (Math.abs(toCheck.get(i) - toCheck.get(i + 1)) > 3) {
                 return false;
             }
         }
